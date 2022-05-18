@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
     [SerializeField] float groundDistance = 0.2f;
+
+    [Header("Level Change")]
+    public LayerMask CityMask;
+
+    private bool CityLevel;
     public bool isGrounded { get; private set; }
 
     Vector3 moveDirection;
@@ -70,7 +76,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        CityLevel = Physics.CheckSphere(groundCheck.position, groundDistance, CityMask);
 
+        Debug.Log(CityLevel);
+       
         MyInput();
         ControlDrag();
         ControlSpeed();
@@ -81,6 +90,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+
+        if (CityLevel)
+        {
+            SceneManager.LoadScene("CityLandscape");
+        }
     }
 
     void MyInput()
@@ -102,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     void ControlSpeed()
     {
-        if (Input.GetKey(sprintKey) && isGrounded)
+        if (Input.GetKey(sprintKey))
         {
             moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
         }
