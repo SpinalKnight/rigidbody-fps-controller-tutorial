@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.47595632, g: 0.76417935, b: 0.9345784, a: 1}
+  m_IndirectSpecularColor: {r: 0.4759183, g: 0.7641209, b: 0.9344825, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -920,7 +920,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
   serializedVersion: 4
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 0
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -2942,6 +2942,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 950780589}
+    - target: {fileID: 3417153338564563619, guid: daaf2244aa8a0c84b8ea284af203bc45,
+        type: 3}
+      propertyPath: grappleable.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 3417153339443987808, guid: daaf2244aa8a0c84b8ea284af203bc45,
         type: 3}
       propertyPath: m_Name

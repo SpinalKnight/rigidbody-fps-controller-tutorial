@@ -40,8 +40,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Level Change")]
     public LayerMask CityMask;
+    public LayerMask TutorialMask;
+
 
     private bool CityLevel;
+    private bool TutorialLevel;
     public bool isGrounded { get; private set; }
 
     Vector3 moveDirection;
@@ -77,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         CityLevel = Physics.CheckSphere(groundCheck.position, groundDistance, CityMask);
+        TutorialLevel = Physics.CheckSphere(groundCheck.position, groundDistance, TutorialMask);
 
         Debug.Log(CityLevel);
        
@@ -94,6 +98,11 @@ public class PlayerMovement : MonoBehaviour
         if (CityLevel)
         {
             SceneManager.LoadScene("CityLandscape");
+        }
+
+        if (TutorialLevel)
+        {
+            SceneManager.LoadScene("Main");
         }
     }
 
