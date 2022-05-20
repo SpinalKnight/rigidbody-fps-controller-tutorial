@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     float playerHeight = 2f;
+
+    public float Timer = 0f;
+
+    public Text myText;
 
     [SerializeField] Transform orientation;
 
@@ -42,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask CityMask;
     public LayerMask TutorialMask;
 
+    [Header("Stop Timer")]
+    public LayerMask stopTimer;
+
 
     private bool CityLevel;
     private bool TutorialLevel;
@@ -50,9 +58,13 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     Vector3 slopeMoveDirection;
 
-    Rigidbody rb;
+    public Rigidbody rb;
 
     RaycastHit slopeHit;
+
+    public bool timerStop = false;
+    public bool moved = false;
+
 
     private bool OnSlope()
     {
@@ -81,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         CityLevel = Physics.CheckSphere(groundCheck.position, groundDistance, CityMask);
         TutorialLevel = Physics.CheckSphere(groundCheck.position, groundDistance, TutorialMask);
+        timerStop = Physics.CheckSphere(groundCheck.position, groundDistance, stopTimer);
+
 
         Debug.Log(CityLevel);
        
@@ -104,6 +118,15 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene("Main");
         }
+
+        if (moved && !timerStop)
+        {
+            Timer += 1 * Time.deltaTime;
+        }
+
+        myText.text = Timer.ToString();
+
+
     }
 
     void MyInput()
@@ -112,6 +135,10 @@ public class PlayerMovement : MonoBehaviour
         verticalMovement = Input.GetAxisRaw("Vertical");
 
         moveDirection = orientation.forward * verticalMovement + orientation.right * horizontalMovement;
+        if (moveDirection != Vector3.zero)
+        {
+            moved = true;
+        }
     }
 
     void Jump()

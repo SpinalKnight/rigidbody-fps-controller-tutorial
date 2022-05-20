@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Respawn : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Respawn : MonoBehaviour
     public float groundDistance;
     public LayerMask deathMask;
     bool kill;
+
+    public PlayerMovement player;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +25,17 @@ public class Respawn : MonoBehaviour
 
         if (kill)
         {
-            Debug.Log("DEATH");
-            transform.position = Spawn.position;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            player.Timer = 0;
+            player.moved = false;
+            player.rb.velocity = Vector3.zero;
         }
+    }
+
+    private void LateUpdate()
+    {
+        transform.rotation = Spawn.transform.rotation;
+
     }
 }
